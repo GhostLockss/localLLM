@@ -1,0 +1,35 @@
+name: Build iOS App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout app
+        uses: actions/checkout@v4
+        with:
+          path: localLLM
+
+      - name: Checkout Swiftlet
+        uses: actions/checkout@v4
+        with:
+          repository: GhostLockss/Swiftlet
+          path: swiftlet
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build app
+        working-directory: localLLM
+        run: |
+          xcodebuild \
+            -project localLLM.xcodeproj \
+            -scheme localLLM \
+            -sdk iphoneos \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
