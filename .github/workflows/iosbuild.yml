@@ -1,4 +1,5 @@
-name: Build iOS App
+
+name: Build Priv AI
 
 on:
   workflow_dispatch:
@@ -11,6 +12,7 @@ jobs:
       - name: Checkout app
         uses: actions/checkout@v4
         with:
+          repository: GhostLockss/localLLM
           path: localLLM
 
       - name: Checkout Swiftlet
@@ -19,7 +21,7 @@ jobs:
           repository: GhostLockss/Swiftlet
           path: swiftlet
 
-      - name: Show Xcode version
+      - name: Check Xcode
         run: xcodebuild -version
 
       - name: Build app
@@ -31,5 +33,6 @@ jobs:
             -sdk iphoneos \
             -configuration Release \
             -destination 'generic/platform=iOS' \
+            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             build
